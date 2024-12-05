@@ -7,8 +7,9 @@
     <title>API Input Page</title>
     <style>
         body {
-            background: url('https://4kwallpapers.com/images/wallpapers/gradient-background-2732x2732-11027.jpg') no-repeat center fixed;
+            background: url('https://static.vecteezy.com/system/resources/previews/000/633/705/original/abstract-gradient-geometric-background-simple-shapes-with-trendy-gradients-vector.jpg') no-repeat center fixed;
             background-size: cover;
+            color: white;
             font-family: Arial, sans-serif;
             margin: 20px;
         }
@@ -30,9 +31,18 @@
         button:hover {
             background-color: #45a049;
         }
+        .response-container {
+            width: auto;
+            margin-top: 20px;
+            padding: 15px;
+
+
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
     </style>
     <script>
-        function callApi(endpoint) {
+        function callApi(endpoint, resultContainerId) {
             const startDate = document.getElementById('start_date').value;
             const endDate = document.getElementById('end_date').value;
 
@@ -49,19 +59,19 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
-                    alert(JSON.stringify(data, null, 2)); // Display the API response
+                    document.getElementById(resultContainerId).textContent = JSON.stringify(data, null, 2); // Display the API response
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert("An error occurred. Check the console for details.");
+                    document.getElementById(resultContainerId).textContent = "An error occurred. Check the console for details.";
                 });
         }
     </script>
 </head>
 <body>
 <div align="center">
-    <h1>API CENTER</h1>
-    <h2>Made by : Ritee Sharma</h2>
+    <h1>API Locator</h1>
+    <h2>Made by: Ritee Sharma</h2>
 
     <label for="start_date">Select Start Date:</label>
     <input type="date" id="start_date" name="start_date">
@@ -69,9 +79,14 @@
     <label for="end_date">Select End Date:</label>
     <input type="date" id="end_date" name="end_date">
 
-    <button onclick="callApi('total_sales')">Get Total Sales</button>
-    <button onclick="callApi('sales_by_category')">Get Sales by Category</button>
-    <button onclick="callApi('market_share_changes')">Get Market Share Changes</button>
+    <button onclick="callApi('total_sales', 'total_sales_result')">Get Total Sales</button>
+    <div id="total_sales_result" class="response-container"></div>
+
+    <button onclick="callApi('sales_by_category', 'sales_by_category_result')">Get Sales by Category</button>
+    <div id="sales_by_category_result" class="response-container"></div>
+
+    <button onclick="callApi('market_share_changes', 'market_share_changes_result')">Get Market Share Changes</button>
+    <div id="market_share_changes_result" class="response-container"></div>
 </div>
 </body>
 </html>
