@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Input Page</title>
+    <style>
+        body {
+            background: url('https://4kwallpapers.com/images/wallpapers/gradient-background-2732x2732-11027.jpg') no-repeat center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, button {
+            display: block;
+            margin: 10px 0;
+        }
+        input[type="date"] {
+            padding: 5px;
+            width: 200px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        function callApi(endpoint) {
+            const startDate = document.getElementById('start_date').value;
+            const endDate = document.getElementById('end_date').value;
+
+            if (!startDate || !endDate) {
+                alert("Please select both start and end dates.");
+                return;
+            }
+
+            // Construct the full API URL
+            const url = `http://127.0.0.1:5000/${endpoint}?start_date=${startDate}&end_date=${endDate}`;
+
+            // Fetch data from the API
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    alert(JSON.stringify(data, null, 2)); // Display the API response
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("An error occurred. Check the console for details.");
+                });
+        }
+    </script>
+</head>
+<body>
+<div align="center">
+    <h1>API CENTER</h1>
+    <h2>Made by : Ritee Sharma</h2>
+
+    <label for="start_date">Select Start Date:</label>
+    <input type="date" id="start_date" name="start_date">
+
+    <label for="end_date">Select End Date:</label>
+    <input type="date" id="end_date" name="end_date">
+
+    <button onclick="callApi('total_sales')">Get Total Sales</button>
+    <button onclick="callApi('sales_by_category')">Get Sales by Category</button>
+    <button onclick="callApi('market_share_changes')">Get Market Share Changes</button>
+</div>
+</body>
+</html>
